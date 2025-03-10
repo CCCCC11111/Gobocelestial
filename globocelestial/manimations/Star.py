@@ -1,12 +1,19 @@
 import math as m
 from Temperaturetocolor import *
-scalex = 2.25
-scaley = 3.976
+scalex = 8.64*m.pi
+scaley = 8.64*m.pi
+n=3
+Center = n*m.pi/6
 
 def to_gallpeter(a,d):
     x=scalex*(a-m.pi)
     y=scaley*m.sin(d)
     return (x,y)
+def to_cassini(a,d):
+    x=scalex*m.asin(m.cos(d)*m.sin(a-Center))
+    y=scaley*m.atan2(m.tan(d),m.cos(a-Center))
+    return (x,y)
+
 
 
 
@@ -25,8 +32,8 @@ class Star:
        y=m.sin(self.asc)*r
        z=m.sin(self.dec)
        return (self.d*x,self.d*y,self.d*z)
-    def getGallpeter(self):
-        return to_gallpeter(self.asc,self.dec)
+    def getPos(self):
+        return to_cassini(self.asc,self.dec)
     def getColor(self,Array):
         Sp=str(self.spec[0])[2]+str(self.spec[1])[2]
         return TemptoRGB(Sp,Array)
